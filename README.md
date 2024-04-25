@@ -11,21 +11,22 @@
   <a href="https://www.donationalerts.com/r/stth12"><img src="https://img.shields.io/badge/Donate-orange?link=https%3A%2F%2Fwww.donationalerts.com%2Fr%2Fstth12" alt="Donate" /></a>
 </p>
 
-## About
+# PhasmoEditor
 
-About Text Here
+**PhasmoEditor** is a tool designed to simplify the modification of game data in Phasmophobia. The program allows easy customization of parameters such as in-game currency, player level, and prestige, providing users with the ability to tailor their gaming experience to their liking.
 
-## Documentation
+## Features
 
-Documentation Here
+- **User-friendly Interface**: A simple and intuitive interface makes working with the program easy and enjoyable.
 
-## Distribute
+- **Game Data Modification**: Users can easily modify data related to in-game currency, player level, and prestige, as well as other parameters, to customize their gaming experience.
 
-- [Service Name](Page Link)
+- **Saving and Backup**: PhasmoEditor allows users to save their changes and create backup copies of data, ensuring the safety and preservation of game information.
 
+## Disclaimer
 
-## Developers
+This project is intended for scientific and research purposes only. **The author takes no responsibility** for any negative consequences resulting from the use of this program or its components.
 
-- [Delevoper Name](GitHub Profile Link)
+## Author
 
-## License
+Created by [stth12](https://github.com/stth12)
