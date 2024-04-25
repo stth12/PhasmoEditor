@@ -1,7 +1,7 @@
 <!-- Логотип -->
 <!-- Логотип -->
 <p align="center">
-  <img src="https://i.ibb.co/ZLvmtNH/logo.png" alt="Logo">
+  <img src="https://github.com/stth12/PhasmoEditor/blob/main/icons/pe_preview.PNG?raw=true" alt="Logo">
 </p>
 
 <!-- Плитки shields.io -->
