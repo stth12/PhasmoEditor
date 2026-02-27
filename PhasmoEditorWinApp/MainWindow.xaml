@@ -1,0 +1,19 @@
+﻿<Window x:Class="PhasmoEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PhasmoEditor v2.0.1" Height="500" Width="800" Background="Black">
+    <Grid RenderTransformOrigin="0.5,0.984" Width="780" Height="450" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Image Source="/pe_preview.PNG" Margin="-108,28,-108,112"/>
+        <TextBlock Text="by stth12" FontSize="16" Margin="30,380,650,20" Foreground="White" Width="100" Height="50" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False" RenderTransformOrigin="0.5,0.5" TextAlignment="Center"/>
+        <Button Content="Start" Click="NextButton_Click" BorderBrush="Lime" Margin="650,380,30,20" Width="100" Height="50" Background="{x:Null}" BorderThickness="1,1,1,1" FontSize="14">
+            <Button.Foreground>
+                <SolidColorBrush Color="Lime" Opacity="1"/>
+            </Button.Foreground>
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+    </Grid>
+</Window>
