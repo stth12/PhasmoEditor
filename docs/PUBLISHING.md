@@ -30,8 +30,9 @@ After review and merge:
    docs/RELEASE_NOTES.md is the local preview with relative image paths.
 5. Attach PhasmoEditor-3.0.0-preview.1-win-x64.zip and its .sha256 file.
 
-Do not mark this as a compatibility-verified stable release until a fresh save
-has been tested against the current game version.
+All application functions have now been tested by the author on Phasmophobia v0.19.1.0.
+The published application is still 3.0.0-preview.1; changing its release status is a separate publishing decision.
+Other game versions require separate verification.
 
 ## Prepared source archive
 

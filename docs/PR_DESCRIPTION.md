@@ -12,4 +12,4 @@ The project moves to .NET 10 and produces a self-contained Windows x64 package.
 
 Validation: Release build without warnings, fixture checks for save handling and
 localization, and local execution of the same packaging script used by CI.
-Compatibility with the current game version still requires a fresh real save.
+The author subsequently tested all application functions on Phasmophobia v0.19.1.0 and reports that they work correctly.

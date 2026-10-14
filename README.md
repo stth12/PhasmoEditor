@@ -16,9 +16,9 @@
 
 ---
 
-> **3.0.0-preview.1** — compatibility with the current game version is not yet verified.
-> Checks use synthetic saves based on the previous editor's format.
-> Unsupported structures are rejected before writing.
+> **Tested on Phasmophobia v0.19.1.0.** The author reports that all application functions work correctly.
+> Automated checks also cover synthetic save fixtures. Unsupported structures are rejected before writing.
+> The application release remains **3.0.0-preview.1**; other game versions require separate verification.
 
 ## A closer look
 

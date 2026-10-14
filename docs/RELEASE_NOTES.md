@@ -9,8 +9,8 @@
 A major update with a redesigned interface, English / Russian support and
 more reliable editing and recovery.
 
-> **Preview status:** compatibility with the current game version is not yet verified.
-> This build is checked against synthetic saves based on the previous editor's format.
+> **Tested on Phasmophobia v0.19.1.0.** The author reports that all application functions work correctly.
+> Automated checks also cover synthetic save fixtures. Other game versions require separate verification.
 
 ## What's new
 
@@ -48,7 +48,7 @@ Restoring also preserves the current file.
   damaged saves, changed files, file locks and EN / RU preferences.
 - The package includes a SHA-256 checksum.
 
-Game-specific progression limits and the current save format still require testing.
+Testing covers Phasmophobia v0.19.1.0. This does not validate every possible progression value or other game versions.
 This release does not manage Steam Cloud.
 
 </details>
@@ -64,8 +64,8 @@ This release does not manage Steam Cloud.
 - Переносимая сборка Windows x64 со встроенным .NET.
 - Иконка только у EXE; ссылка на GitHub автора в приложении.
 
-> **Предварительная версия:** совместимость с текущей игрой ещё не проверена.
-> Использованы искусственные файлы прежнего формата.
+> **Проверено на Phasmophobia v0.19.1.0.** По результатам проверки автора все функции работают исправно.
+> Автоматические проверки также используют тестовые сохранения. Для других версий игры нужна отдельная проверка.
 
 <details>
 <summary><strong>Посмотреть русский интерфейс</strong></summary>

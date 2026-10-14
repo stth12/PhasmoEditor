@@ -22,6 +22,6 @@
 - Kept the custom icon on the executable only.
 - Removed unused legacy windows, resources and generated settings.
 
-### Known limitation
-Compatibility with the current Phasmophobia version is not yet verified.
-This preview is tested against synthetic fixtures of the previous format.
+### Compatibility
+The author tested all application functions on Phasmophobia v0.19.1.0 and reports that they work correctly.
+Automated checks also use synthetic save fixtures. Other game versions require separate verification.
