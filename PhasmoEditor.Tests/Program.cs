@@ -96,7 +96,6 @@ internal static class Program
             string settingsPath = Path.Combine(directory, "settings.json");
             var window = new PhasmoEditor.MainWindow(settingsPath);
             Assert(window.Strings.Language == "en", "English is the first-launch default");
-            Assert(window.Icon is not null, "Application icon loaded");
             var candidates = (System.Windows.Controls.ComboBox)window.FindName("Candidates");
             candidates.ItemsSource = new[] { path };
             candidates.SelectedIndex = 0;
@@ -162,7 +161,7 @@ internal static class Program
                 encoder.Save(stream);
             }
             window.Close();
-            Console.WriteLine("PASS: save handling, recovery, file errors, English default, live EN/RU switching, input preservation, translated errors, preferences and icon.");
+            Console.WriteLine("PASS: save handling, recovery, file errors, English default, live EN/RU switching, input preservation, translated errors and preferences.");
             return 0;
         }
         catch (Exception ex) { Console.Error.WriteLine(ex); return 1; }

@@ -3,7 +3,7 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
  xmlns:local="clr-namespace:PhasmoEditor"
  xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
- Title="PhasmoEditor 3.0" Icon="phasmoeditorlogo.ico" Width="1120" Height="880" MinWidth="960" MinHeight="730"
+ Title="PhasmoEditor 3.0" Width="1120" Height="880" MinWidth="960" MinHeight="730"
  WindowStyle="None" ResizeMode="CanResize" Background="#0D1312"
  Foreground="#EEF3EF" FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13"
  WindowStartupLocation="CenterScreen" UseLayoutRounding="True">
@@ -193,7 +193,7 @@
    <Grid.RowDefinitions><RowDefinition Height="54"/><RowDefinition/></Grid.RowDefinitions>
    <Grid Margin="22,0,16,0">
     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-     <Image Source="phasmoeditorlogo.ico" Width="22" Height="22" Margin="0,0,10,0"/>
+     <Border Width="8" Height="8" CornerRadius="4" Background="#B9D7BC" Margin="0,0,10,0"/>
      <TextBlock Text="PHASMOEDITOR" FontSize="11" FontWeight="SemiBold" Foreground="#C4D2C7"/>
      <TextBlock Text=" /  3.0" FontFamily="Consolas" FontSize="11" Foreground="#647C6D" Margin="8,0,0,0"/>
     </StackPanel>
@@ -214,7 +214,9 @@
       <StackPanel>
        <Border Width="54" Height="54" CornerRadius="16" HorizontalAlignment="Left" BorderBrush="#53705A" BorderThickness="1">
         <Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="1,1"><GradientStop Color="#3D5742"/><GradientStop Color="#1A2B20" Offset="1"/></LinearGradientBrush></Border.Background>
-        <Image Source="phasmoeditorlogo.ico" Margin="7" RenderOptions.BitmapScalingMode="HighQuality"/>
+        <Viewbox Margin="12">
+         <Path Data="M 4,22 L 11,22 15,13 19,30 24,6 29,24 35,18 42,18" Stroke="#D2E5D1" StrokeThickness="2" StrokeLineJoin="Round"/>
+        </Viewbox>
        </Border>
        <TextBlock Text="Phasmo&#10;Editor" FontSize="24" FontWeight="SemiBold" LineHeight="29" Margin="0,18,0,8"/>
        <TextBlock Text="{Binding [Tagline], Source={StaticResource Strings}}" Foreground="#91A698" FontSize="12" LineHeight="19"/>

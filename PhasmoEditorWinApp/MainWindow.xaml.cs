@@ -129,7 +129,7 @@ public partial class MainWindow : Window
     {
         var dialog = new Window
         {
-            Owner = this, Icon = Icon, Title = Strings[titleKey], Width = 470,
+            Owner = this, Title = Strings[titleKey], Width = 470,
             SizeToContent = SizeToContent.Height, WindowStartupLocation = WindowStartupLocation.CenterOwner,
             WindowStyle = WindowStyle.None, ResizeMode = ResizeMode.NoResize, ShowInTaskbar = false,
             Background = new SolidColorBrush(Color.FromRgb(23, 32, 29)), FontFamily = FontFamily
