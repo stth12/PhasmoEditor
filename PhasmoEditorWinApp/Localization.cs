@@ -43,7 +43,7 @@ public sealed class Localization : INotifyPropertyChanged
         ["SelectBackup"] = ("Select a backup", "Выберите резервную копию"),
         ["Restore"] = ("Restore backup", "Восстановить копию"),
         ["OpenFolder"] = ("Open folder  ↗", "Открыть папку  ↗"),
-        ["Welcome"] = ("Choose a save file. Compatibility with the current game version still needs verification.", "Выберите сохранение. Совместимость с текущей версией игры требует проверки."),
+        ["Welcome"] = ("Choose a save file to get started.", "Выберите сохранение, чтобы начать."),
         ["ChooseFile"] = ("Choose a file…", "Выберите файл…"),
         ["LegacyBackup"] = ("Backup from a previous version", "Копия из предыдущей версии"),
         ["Loaded"] = ("Save loaded. Unchanged fields will keep their current values.", "Сохранение прочитано. Неизменённые поля сохранят текущие значения."),

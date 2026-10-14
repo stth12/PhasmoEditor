@@ -1,27 +1,14 @@
 # Changelog
 
-## 3.0.0-preview.1
+## 3.0.0
 
-### Added
-- A new single-window design with rounded panels and a Phasmophobia-inspired palette.
-- A sidebar link to the author's GitHub profile.
-- English and Russian UI, instant switching and persistent language preferences.
+- Redesigned interface with a dark Phasmophobia-inspired palette.
+- English / Russian switching with saved language preferences.
 - Recursive save discovery and manual file selection.
-- Current-value display and a confirmation preview.
-- Per-operation backups, restore, legacy backup discovery and backup-folder access.
-- Validation for unsupported formats, invalid input and running game processes.
-- Verification fixtures covering legacy decoding, untouched JSON fields, backup history,
-  restore, corrupt files, stale snapshots, file locks and localization.
-- Reproducible preview packaging and Windows CI.
+- Current values and a review of changes before saving.
+- Backup history, restore and legacy backup support.
+- Verified writes and detection of externally changed files.
+- Standalone Windows x64 EXE with .NET included.
+- Custom executable icon and an author GitHub link.
 
-### Changed
-- Migrated from .NET Framework 4.8 to .NET 10 WPF.
-- Replaced delete-and-move writes with File.Replace and backup creation.
-- Moved save handling out of the window implementation.
-- Removed global string replacements and decrypted temporary files.
-- Kept the custom icon on the executable only.
-- Removed unused legacy windows, resources and generated settings.
-
-### Compatibility
-The author tested all application functions on Phasmophobia v0.19.1.0 and reports that they work correctly.
-Automated checks also use synthetic save fixtures. Other game versions require separate verification.
+Tested on **Phasmophobia v0.19.1.0**.

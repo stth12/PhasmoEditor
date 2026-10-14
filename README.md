@@ -1,129 +1,69 @@
 <p align="center">
-  <img src="docs/images/banner.png" alt="PhasmoEditor — Your progress. Your control." width="1280">
+  <img src="docs/images/banner.png" alt="PhasmoEditor 3.0.0" width="1280">
 </p>
 
 <p align="center">
-  A local save editor for <strong>Phasmophobia</strong>.<br>
-  A calmer workspace for your money, level and prestige.
+  Save editor for <strong>Phasmophobia</strong> — money, level and prestige.
 </p>
 
 <p align="center">
-  <a href="https://github.com/stth12/PhasmoEditor/releases"><strong>Releases</strong></a>
-  &nbsp; · &nbsp; <a href="#quick-start">Quick start</a>
+  <a href="https://github.com/stth12/PhasmoEditor/releases/download/v3.0.0/PhasmoEditor-3.0.0-win-x64.exe"><strong>Download for Windows x64</strong></a>
   &nbsp; · &nbsp; <a href="docs/README.ru.md">Русский</a>
   &nbsp; · &nbsp; <a href="CHANGELOG.md">Changelog</a>
 </p>
 
----
+<p align="center"><strong>Version 3.0.0 · Tested on Phasmophobia v0.19.1.0 · EN / RU</strong></p>
 
-> **Tested on Phasmophobia v0.19.1.0.** The author reports that all application functions work correctly.
-> Automated checks also cover synthetic save fixtures. Unsupported structures are rejected before writing.
-> The application release remains **3.0.0-preview.1**; other game versions require separate verification.
+## Features
 
-## A closer look
+- Edit money, level and prestige with current values loaded from your save.
+- Find saves in nested profile folders or select a file manually.
+- Review changes before saving.
+- Keep a backup for every write and restore earlier copies.
+- Switch between English and Russian without restarting.
+- Run a single EXE — .NET is included.
 
 <p align="center">
-  <img src="docs/images/interface-en.png" alt="English interface with save selection, profile settings and backup archive" width="1120">
+  <img src="docs/images/interface-en.png" alt="PhasmoEditor interface" width="1120">
 </p>
 
-*Actual application interface. Screenshots use synthetic demonstration data.*
+## Getting started
 
-| Find your save | Adjust your profile | Keep a way back |
-| :--- | :--- | :--- |
-| Search nested profile folders or open a file manually. | Load current values and review changes before writing. | Keep separate backups and restore an earlier version. |
+1. Download **PhasmoEditor-3.0.0-win-x64.exe** from [Releases](https://github.com/stth12/PhasmoEditor/releases/tag/v3.0.0).
+2. Close Phasmophobia and check Steam Cloud settings.
+3. Run the EXE and click **Find** or **Open…**.
+4. Select your save, change the values and click **Review and save**.
 
-## Made for a simpler workflow
+No installation or separate .NET runtime is required.
 
-- **One focused window.** Rounded panels, restrained typography and a dark green palette.
-- **English / Русский.** English on first launch; switch instantly without losing entered values.
-- **Portable on Windows x64.** The release ZIP includes .NET. Extract it and run.
-- **A backup for every operation.** Saving and restoring both preserve the previous file.
-- **Checks before writing.** Verify the edited document and reject stale or unsupported saves.
-- **Your files stay local.** Editing is performed on the selected file; Steam Cloud is not managed.
+## Backups
+
+Use **Backup archive → Restore backup** to return to an earlier save.
+Copies are stored in **PhasmoEditorBackups** beside the selected file.
+Restoring also backs up the current file. Legacy **SaveFileBackup.txt** copies are supported.
 
 <details>
-<summary><strong>See the Russian interface</strong></summary>
+<summary><strong>Русский интерфейс</strong></summary>
 
-<p align="center">
-  <img src="docs/images/interface-ru.png" alt="Russian interface with EN / RU language switching" width="1120">
-</p>
+<img src="docs/images/interface-ru.png" alt="PhasmoEditor — русский интерфейс" width="1120">
 
-The language preference is kept between launches. [Документация на русском](docs/README.ru.md).
+[Инструкция на русском](docs/README.ru.md).
 
 </details>
 
-## Quick start
+## Build
 
-**Download → Extract → Open → Review → Save**
-
-1. Get **PhasmoEditor-3.0.0-preview.1-win-x64.zip** from the
-   [preview release](https://github.com/stth12/PhasmoEditor/releases/tag/v3.0.0-preview.1) once published.
-2. Extract the ZIP and run **PhasmoEditor.exe**.
-3. Close Phasmophobia and check your Steam Cloud settings.
-4. Click **Find** or **Open…**, then select the save you want to edit.
-5. Adjust the values, click **Review and save**, and confirm the changes.
-
-No separate .NET runtime installation is required for the portable release.
-
-### Backups and recovery
-
-Backups appear in **Backup archive**. Select one and click **Restore backup** to recover it.
-The current file will also be backed up. A damaged save can be restored from a valid copy.
-
-| Location | Purpose |
-| :--- | :--- |
-| `%USERPROFILE%\AppData\LocalLow\Kinetic Games\Phasmophobia` | Automatic discovery, including subfolders |
-| `PhasmoEditorBackups` beside the selected save | Backup history; copies are never automatically deleted |
-| `%LOCALAPPDATA%\PhasmoEditor\settings.json` | Saved EN / RU preference |
-
-Legacy **SaveFileBackup.txt** copies are also listed.
-
-## Build from source
-
-Windows, PowerShell and **.NET SDK 10** are required.
+Windows and .NET SDK 10 are required.
 
 ~~~powershell
 ./scripts/prepare-release.ps1
 ~~~
 
-This builds the solution, runs verification, and creates a self-contained ZIP plus
-a SHA-256 checksum under `artifacts/release`.
-
-<details>
-<summary>Individual build commands and repository layout</summary>
-
-~~~powershell
-dotnet build PhasmoEditorWinApp.sln -c Release
-dotnet run --project PhasmoEditor.Tests -c Release
-~~~
-
-| Folder | Contents |
-| :--- | :--- |
-| `PhasmoEditorWinApp` | WPF application, localization and save handling |
-| `PhasmoEditor.Tests` | Executable verification suite and demo screenshot rendering |
-| `scripts` | Preview packaging |
-| `docs` | Images, Russian documentation and publishing notes |
-
-GitHub Actions runs the same packaging script and uploads the ZIP and checksum.
-It does not publish a Release automatically.
-
-</details>
-
-## Compatibility and limits
-
-This preview retains the previous AES-CBC / PBKDF2-SHA1 codec.
-The save must contain numeric `value` entries for
-`PlayersMoney`, `NewLevel` and `Prestige`. Other JSON fields are preserved by value.
-
-Input accepts whole numbers from **0 to 2147483647**.
-Game-specific limits and relationships between progression fields still require verification.
-Keep the game closed and avoid concurrent save editors: a short race remains between
-the file-change check and replacement. Game-process detection uses the name `Phasmophobia`.
+The script builds the application, runs checks and produces the standalone EXE
+and SHA-256 checksum in `artifacts/release`.
 
 ---
 
-Created by **[stth12](https://github.com/stth12)** ·
-[Report a problem](https://github.com/stth12/PhasmoEditor/issues) ·
-[Publishing notes](docs/PUBLISHING.md)
-
-*Independent community project. Not affiliated with the developers of Phasmophobia.*
+**[stth12](https://github.com/stth12)** ·
+[Report an issue](https://github.com/stth12/PhasmoEditor/issues) ·
+[Releases](https://github.com/stth12/PhasmoEditor/releases)
