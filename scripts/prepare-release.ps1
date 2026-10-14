@@ -31,6 +31,7 @@ try {
     Copy-Item -LiteralPath README.md, CHANGELOG.md -Destination $stagingDirectory
     New-Item -ItemType Directory -Path (Join-Path $stagingDirectory 'docs') | Out-Null
     Copy-Item -LiteralPath docs/README.ru.md, docs/RELEASE_NOTES.md, docs/PUBLISHING.md -Destination (Join-Path $stagingDirectory 'docs')
+    Copy-Item -LiteralPath docs/images -Destination (Join-Path $stagingDirectory 'docs') -Recurse
     $zipPath = Join-Path $OutputRoot "$packageName.zip"
     Compress-Archive -Path (Join-Path $stagingDirectory '*') -DestinationPath $zipPath -Force
     $hash = (Get-FileHash -LiteralPath $zipPath -Algorithm SHA256).Hash.ToLowerInvariant()

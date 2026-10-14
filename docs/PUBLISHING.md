@@ -25,7 +25,9 @@ After review and merge:
    ZIP and checksum from the successful GitHub Actions run.
 2. Create a GitHub Release with tag **v3.0.0-preview.1**, targeting that commit.
 3. Mark **Set as a pre-release**.
-4. Use docs/RELEASE_NOTES.md as the description.
+4. Copy docs/GITHUB_RELEASE.md into the release description. Its image URLs target
+   the same tag, v3.0.0-preview.1. Include docs/images in that tagged commit.
+   docs/RELEASE_NOTES.md is the local preview with relative image paths.
 5. Attach PhasmoEditor-3.0.0-preview.1-win-x64.zip and its .sha256 file.
 
 Do not mark this as a compatibility-verified stable release until a fresh save

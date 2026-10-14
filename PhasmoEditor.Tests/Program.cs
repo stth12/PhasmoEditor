@@ -143,6 +143,19 @@ internal static class Program
             var corruptPreference = new PhasmoEditor.Localization();
             corruptPreference.Initialize(settingsPath);
             Assert(corruptPreference.Language == "en", "Invalid settings fall back to English");
+            // Documentation screenshots use synthetic data and an anonymized display path.
+            if (args.Length > 4 && args[4] == "docs")
+            {
+                string demoDirectory = Path.Combine(directory, "Steam profile");
+                Directory.CreateDirectory(demoDirectory);
+                string demoPath = Path.Combine(demoDirectory, "SaveFile.txt");
+                File.WriteAllBytes(demoPath, original);
+                service.Save(service.Load(demoPath), 12500, 35, 2);
+                candidates.ItemsSource = new[] { demoPath };
+                candidates.SelectedIndex = 0;
+                ((System.Windows.Controls.TextBlock)window.FindName("PathLabel")).Text =
+                    @"…\Kinetic Games\Phasmophobia\Steam profile\SaveFile.txt";
+            }
             if (args.Length > 3 && args[3] == "ru")
                 russianButton.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
             var visual = (FrameworkElement)window.Content;
