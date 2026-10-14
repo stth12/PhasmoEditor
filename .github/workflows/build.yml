@@ -1,0 +1,23 @@
+name: Build and verify
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build
+        run: dotnet build PhasmoEditorWinApp/PhasmoEditorWinApp.csproj -c Release
+      - name: Verify
+        run: dotnet run --project PhasmoEditor.Tests -c Release
+      - name: Publish portable application
+        run: dotnet publish PhasmoEditorWinApp/PhasmoEditorWinApp.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts/PhasmoEditor
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PhasmoEditor-win-x64
+          path: artifacts/PhasmoEditor/

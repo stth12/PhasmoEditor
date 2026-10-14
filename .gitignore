@@ -1,4 +1,6 @@
 .vs/
+artifacts/
+preview.png
 bin/
 obj/
 packages/
