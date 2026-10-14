@@ -55,6 +55,8 @@ public partial class MainWindow : Window
     private void NavigateSave_Click(object sender, RoutedEventArgs e) => SaveSection.BringIntoView();
     private void NavigateProgress_Click(object sender, RoutedEventArgs e) => ProgressSection.BringIntoView();
     private void NavigateBackups_Click(object sender, RoutedEventArgs e) => BackupsSection.BringIntoView();
+    private void OpenGitHub_Click(object sender, RoutedEventArgs e) => Run(() =>
+        Process.Start(new ProcessStartInfo("https://github.com/stth12") { UseShellExecute = true }));
 
     private void Run(Action action)
     {

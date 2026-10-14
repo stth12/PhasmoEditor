@@ -236,6 +236,8 @@
         <StackPanel>
          <TextBlock Text="{Binding [FieldNotes], Source={StaticResource Strings}}" Style="{StaticResource Eyebrow}" Margin="0,0,0,8"/>
          <TextBlock Text="{Binding [BackupNote], Source={StaticResource Strings}}" Foreground="#82988A" FontSize="11" LineHeight="17"/>
+         <Button Content="GitHub · stth12  ↗" Click="OpenGitHub_Click" Style="{StaticResource QuietButton}"
+          Margin="0,16,0,0" Padding="8,9" FontSize="11" ToolTip="https://github.com/stth12"/>
         </StackPanel>
        </Border>
       </StackPanel>

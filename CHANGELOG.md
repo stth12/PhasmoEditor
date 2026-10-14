@@ -1,23 +1,27 @@
-# 3.0.0 — версия для проверки
+# Changelog
 
-- Иконка EXE из phasmoeditorlogo.ico; без отображения в интерфейсе.
-- Поддержка EN / RU: английский по умолчанию, переключение без перезапуска
-  и сохранение выбранного языка.
-- Переведены интерфейс, подсказки, ошибки, подтверждения и подписи резервных копий.
+## 3.0.0-preview.1
 
-- Новый дизайн: скруглённые панели, собственная рамка окна, боковая навигация,
-  приглушённая зелёная палитра и графика сигнала в атмосфере Phasmophobia.
-- Короткие названия сохранений и даты резервных копий; полный путь доступен в подсказках.
+### Added
+- A new single-window design with rounded panels and a Phasmophobia-inspired palette.
+- A sidebar link to the author's GitHub profile.
+- English and Russian UI, instant switching and persistent language preferences.
+- Recursive save discovery and manual file selection.
+- Current-value display and a confirmation preview.
+- Per-operation backups, restore, legacy backup discovery and backup-folder access.
+- Validation for unsupported formats, invalid input and running game processes.
+- Verification fixtures covering legacy decoding, untouched JSON fields, backup history,
+  restore, corrupt files, stale snapshots, file locks and localization.
+- Reproducible preview packaging and Windows CI.
 
-- Одно окно с русским интерфейсом, текущими значениями и предварительным просмотром.
-- Поиск сохранений во вложенных папках и ручной выбор файла.
-- Проверка ввода и блокировка записи при запущенной игре.
-- История резервных копий, восстановление и открытие папки копий.
-- Замена файла через File.Replace вместо удаления оригинала.
-- Защита от записи поверх файла, изменившегося после загрузки.
-- Обработка JSON в памяти без глобальных замен строк.
-- Проверка результата шифрования до записи.
-- Переход с .NET Framework 4.8 на .NET 10 WPF и переносимую сборку.
-- Проверки старого формата и ошибок файловой системы; сборка в GitHub Actions.
+### Changed
+- Migrated from .NET Framework 4.8 to .NET 10 WPF.
+- Replaced delete-and-move writes with File.Replace and backup creation.
+- Moved save handling out of the window implementation.
+- Removed global string replacements and decrypted temporary files.
+- Kept the custom icon on the executable only.
+- Removed unused legacy windows, resources and generated settings.
 
-Совместимость с текущей игрой ожидает проверки на настоящем сохранении.
+### Known limitation
+Compatibility with the current Phasmophobia version is not yet verified.
+This preview is tested against synthetic fixtures of the previous format.
