@@ -108,12 +108,14 @@ internal static class Program
             candidates.SelectedIndex = -1;
             candidates.SelectedIndex = 0;
             var visual = (FrameworkElement)window.Content;
-            visual.Measure(new Size(920, 720));
-            visual.Arrange(new Rect(0, 0, 920, 720));
+            int width = args.Length > 1 ? int.Parse(args[1]) : 1120;
+            int height = args.Length > 2 ? int.Parse(args[2]) : 880;
+            visual.Measure(new Size(width, height));
+            visual.Arrange(new Rect(0, 0, width, height));
             visual.UpdateLayout();
             if (args.Length > 0)
             {
-                var image = new RenderTargetBitmap(920, 720, 96, 96, PixelFormats.Pbgra32);
+                var image = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
                 image.Render(visual);
                 var encoder = new PngBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(image));

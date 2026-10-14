@@ -1,6 +1,7 @@
 .vs/
 artifacts/
 preview.png
+preview-*.png
 bin/
 obj/
 packages/

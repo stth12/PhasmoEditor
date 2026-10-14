@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Microsoft.Win32;
 using PhasmoEditor.Core;
 
@@ -13,6 +14,14 @@ public partial class MainWindow : Window
     private readonly SaveService service = new();
     private SaveSnapshot? loaded;
     public MainWindow() { InitializeComponent(); }
+
+    private void Minimize_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+    private void Maximize_Click(object sender, RoutedEventArgs e) =>
+        WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+    private void Close_Click(object sender, RoutedEventArgs e) => Close();
+    private void NavigateSave_Click(object sender, RoutedEventArgs e) => SaveSection.BringIntoView();
+    private void NavigateProgress_Click(object sender, RoutedEventArgs e) => ProgressSection.BringIntoView();
+    private void NavigateBackups_Click(object sender, RoutedEventArgs e) => BackupsSection.BringIntoView();
 
     private void Run(Action action)
     {
@@ -121,4 +130,26 @@ public partial class MainWindow : Window
         if (!Directory.Exists(directory)) { Status.Text = "Резервные копии появятся после первой записи."; return; }
         Process.Start(new ProcessStartInfo(directory) { UseShellExecute = true });
     });
+}
+
+public sealed class SaveDisplayConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not string path) return "Выберите файл…";
+        string name = Path.GetFileName(path);
+        if (name.EndsWith(".bak", StringComparison.OrdinalIgnoreCase))
+        {
+            var match = System.Text.RegularExpressions.Regex.Match(name, @"\.(\d{8}-\d{6}-\d{7})\.");
+            if (match.Success && DateTime.TryParseExact(match.Groups[1].Value, "yyyyMMdd-HHmmss-fffffff",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out var date))
+                return date.ToLocalTime().ToString("dd.MM.yyyy  ·  HH:mm:ss", CultureInfo.InvariantCulture);
+        }
+        if (name.Equals("SaveFileBackup.txt", StringComparison.OrdinalIgnoreCase))
+            return "Копия из предыдущей версии";
+        return name + "  ·  " + Path.GetFileName(Path.GetDirectoryName(path));
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
+        Binding.DoNothing;
 }
