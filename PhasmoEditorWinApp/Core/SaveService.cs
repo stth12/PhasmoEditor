@@ -24,14 +24,14 @@ public sealed class SaveService
     public string Save(SaveSnapshot snapshot, int money, int level, int prestige)
     {
         if (money < 0 || level < 0 || prestige < 0)
-            throw new ArgumentException("Значения не могут быть отрицательными.");
+            throw SaveErrors.Tag(new ArgumentException("Values cannot be negative."), "NegativeValues");
         var updated = (JsonObject)snapshot.Document.DeepClone();
         var values = new[] { money, level, prestige };
         for (int i = 0; i < Fields.Length; i++)
             updated[Fields[i]]!["value"] = values[i];
         var encrypted = Encode(updated);
         if (!JsonNode.DeepEquals(updated, Decode(encrypted)))
-            throw new InvalidDataException("Проверка результата не пройдена. Сохранение не изменено.");
+            throw SaveErrors.Tag(new InvalidDataException("Verification failed."), "VerificationFailed");
         return Replace(snapshot, encrypted);
     }
 
@@ -79,14 +79,14 @@ public sealed class SaveService
     {
         if (document[field] is not JsonObject entry || entry["value"] is not JsonValue value
             || !value.TryGetValue<int>(out var number))
-            throw new InvalidDataException($"Неподдерживаемая структура: поле {field}. Изменения не записаны.");
+            throw SaveErrors.Tag(new InvalidDataException($"Unsupported field: {field}."), "InvalidField", field);
         return number;
     }
 
     public static JsonObject Decode(byte[] bytes)
     {
         if (bytes.Length < 32 || (bytes.Length - 16) % 16 != 0)
-            throw new InvalidDataException("Неподдерживаемый или повреждённый файл сохранения.");
+            throw SaveErrors.Tag(new InvalidDataException("Unsupported or damaged save."), "InvalidFormat");
         try
         {
             using var aes = Aes.Create();
@@ -95,13 +95,13 @@ public sealed class SaveService
             var plain = aes.DecryptCbc(bytes[16..], aes.IV, PaddingMode.PKCS7);
             var text = new UTF8Encoding(false, true).GetString(plain).TrimStart('\uFEFF').TrimEnd('\0');
             var document = JsonNode.Parse(text) as JsonObject
-                ?? throw new InvalidDataException("Ожидался объект JSON.");
+                ?? throw SaveErrors.Tag(new InvalidDataException("Expected a JSON object."), "ExpectedObject");
             foreach (var field in Fields) ReadValue(document, field);
             return document;
         }
         catch (Exception ex) when (ex is CryptographicException or System.Text.Json.JsonException or DecoderFallbackException)
         {
-            throw new InvalidDataException("Не удалось прочитать сохранение. Формат может быть неподдерживаемым или файл повреждён.", ex);
+            throw SaveErrors.Tag(new InvalidDataException("Could not decode the save.", ex), "DecodeFailed");
         }
     }
 
@@ -130,7 +130,7 @@ public sealed class SaveService
                 stream.Flush(true);
             }
             if (!File.ReadAllBytes(snapshot.Path).AsSpan().SequenceEqual(snapshot.Original))
-                throw new IOException("Файл изменился после загрузки. Загрузите его заново перед записью.");
+                throw SaveErrors.Tag(new IOException("The save changed after loading."), "FileChanged");
             // Atomic replacement also preserves the previous destination as a backup.
             File.Replace(temporary, snapshot.Path, backup);
             return backup;
@@ -139,5 +139,15 @@ public sealed class SaveService
         {
             if (File.Exists(temporary)) File.Delete(temporary);
         }
+    }
+}
+
+internal static class SaveErrors
+{
+    public static T Tag<T>(T exception, string key, params object[] arguments) where T : Exception
+    {
+        exception.Data["MessageKey"] = key;
+        exception.Data["MessageArguments"] = arguments;
+        return exception;
     }
 }

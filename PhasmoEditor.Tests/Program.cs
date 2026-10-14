@@ -93,20 +93,59 @@ internal static class Program
             string legacyBackup = Path.Combine(directory, "SaveFileBackup.txt");
             File.WriteAllBytes(legacyBackup, original);
             Assert(SaveService.Backups(path).Contains(legacyBackup), "Legacy backup discoverable");
-            var window = new PhasmoEditor.MainWindow();
+            string settingsPath = Path.Combine(directory, "settings.json");
+            var window = new PhasmoEditor.MainWindow(settingsPath);
+            Assert(window.Strings.Language == "en", "English is the first-launch default");
+            Assert(window.Icon is not null, "Application icon loaded");
             var candidates = (System.Windows.Controls.ComboBox)window.FindName("Candidates");
             candidates.ItemsSource = new[] { path };
             candidates.SelectedIndex = 0;
             Assert(((System.Windows.Controls.TextBox)window.FindName("MoneyInput")).Text == "100", "UI loads current values");
             Assert(((System.Windows.Controls.Button)window.FindName("SaveButton")).IsEnabled, "UI enables valid save");
+            var moneyInput = (System.Windows.Controls.TextBox)window.FindName("MoneyInput");
+            moneyInput.Text = "777";
+            var englishButton = (System.Windows.Controls.Button)window.FindName("EnglishButton");
+            var russianButton = (System.Windows.Controls.Button)window.FindName("RussianButton");
+            russianButton.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
+            window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.DataBind);
+            Assert(window.Strings.Language == "ru", "Language switch to Russian");
+            Assert(moneyInput.Text == "777", "Language switch preserves unsaved values");
+            Assert(((System.Windows.Controls.Button)window.FindName("SaveButton")).Content.ToString() == "Проверить и сохранить  →", "Live button translation");
+            var savedPreference = new PhasmoEditor.Localization();
+            savedPreference.Initialize(settingsPath);
+            Assert(savedPreference.Language == "ru", "Language preference persists");
+            englishButton.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
+            Assert(File.ReadAllBytes(path).SequenceEqual(original), "Language switching never modifies the save");
+            moneyInput.Text = "invalid";
+            ((System.Windows.Controls.Button)window.FindName("SaveButton")).RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
+            Assert(((System.Windows.Controls.TextBlock)window.FindName("Status")).Text.StartsWith("Money:"), "English validation message");
+            russianButton.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
+            Assert(((System.Windows.Controls.TextBlock)window.FindName("Status")).Text.StartsWith("Деньги:"), "Existing validation message translates");
+            englishButton.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
             File.WriteAllBytes(path, [1, 2, 3]);
             candidates.SelectedIndex = -1;
             candidates.SelectedIndex = 0;
             Assert(!((System.Windows.Controls.Button)window.FindName("SaveButton")).IsEnabled, "UI rejects corrupt save");
             Assert(((System.Windows.Controls.ComboBox)window.FindName("BackupList")).Items.Count > 0, "UI retains restore access");
+            Assert(((System.Windows.Controls.TextBlock)window.FindName("Status")).Text == window.Strings["InvalidFormat"], "Localized format error");
+            russianButton.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
+            Assert(((System.Windows.Controls.TextBlock)window.FindName("Status")).Text == "Неподдерживаемый или повреждённый файл сохранения.", "Error translates without reloading");
+            englishButton.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
             service.Restore(path, backup1);
             candidates.SelectedIndex = -1;
             candidates.SelectedIndex = 0;
+            foreach (string key in PhasmoEditor.Localization.Keys)
+            {
+                Assert(!string.IsNullOrWhiteSpace(window.Strings[key]), "English translation: " + key);
+                savedPreference.SetLanguage("ru", false);
+                Assert(!string.IsNullOrWhiteSpace(savedPreference[key]), "Russian translation: " + key);
+            }
+            File.WriteAllText(settingsPath, "[]");
+            var corruptPreference = new PhasmoEditor.Localization();
+            corruptPreference.Initialize(settingsPath);
+            Assert(corruptPreference.Language == "en", "Invalid settings fall back to English");
+            if (args.Length > 3 && args[3] == "ru")
+                russianButton.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
             var visual = (FrameworkElement)window.Content;
             int width = args.Length > 1 ? int.Parse(args[1]) : 1120;
             int height = args.Length > 2 ? int.Parse(args[2]) : 880;
@@ -123,7 +162,7 @@ internal static class Program
                 encoder.Save(stream);
             }
             window.Close();
-            Console.WriteLine("PASS: legacy format, field preservation, backup history, restore, corrupt files, stale snapshots, file locks, discovery, WPF initialization.");
+            Console.WriteLine("PASS: save handling, recovery, file errors, English default, live EN/RU switching, input preservation, translated errors, preferences and icon.");
             return 0;
         }
         catch (Exception ex) { Console.Error.WriteLine(ex); return 1; }
